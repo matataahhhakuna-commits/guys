@@ -1,0 +1,63 @@
+Save as any name.html in vs code
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Sample AJAX Program</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Sample AJAX Program - Add/Update Users</h1>
+        <hr>
+        <!-- Section1: Load Data -->
+        <div class="section">
+            <h3>1. Load User Data</h3>
+            <button onclick="loadUsers()">Load Users</button>
+            <div id="loading" style="display: none;">Loading...</div>
+            <div id="userList"></div>
+        </div>
+    </div>
+
+    <script>
+        // Simple in-memory database
+        let users = [
+            { id: 1, name: "srimathi", email: "22bcc056@psgrkcw.ac.in" },
+            { id: 2, name: "Priya", email: "srimathi06@gmail.com" },
+            { id: 3, name: "sugavanam", email: "sugava@gmail.com" }
+        ];
+
+        function simulateAjax(callback, delay = 1000) {
+            setTimeout(callback, delay);
+        }
+
+        // 1. Load Users (GET request simulation)
+        function loadUsers() {
+            const loading = document.getElementById('loading');
+            const userList = document.getElementById('userList');
+
+            // Show loading
+            loading.style.display = "block";
+            userList.innerHTML = "";
+
+            // Simulate AJAX Call
+            simulateAjax(() => {
+                loading.style.display = 'none';
+
+                if (users.length === 0) {
+                    userList.innerHTML = '<p>No users found.</p>';
+                    return;
+                }
+
+                let html = `<div class="user-List"><h4>Users</h4>`;
+                users.forEach(user => {
+                    html += `<p><strong>ID:</strong> ${user.id} | <strong>Name:</strong> ${user.name} | <strong>Email:</strong> ${user.email}</p>`;
+                });
+                html += '</div>';
+                userList.innerHTML = html;
+            });
+        }
+    </script>
+</body>
+</html>
+
+
