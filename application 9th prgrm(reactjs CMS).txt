@@ -1,0 +1,51 @@
+Command prompt
+Open >cmd
+>nvm version(1.2.2)
+>nvm list( 16.20.2)
+>nvm install 22.17.0
+>nvm List
+>node –v
+>nvm use 22
+Error means
+Nvm install 22.17.0
+Nvm use 22.17.0
+Node -v
+Npm -v
+>node –v
+>npm create vite@latest test-react-app
+>y
+>select react
+>select JavaScript
+>cd test-react-app
+>npm install
+>npm run dev
+
+Coding
+App.jsx
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
+import MyHome from './components/MyHome'
+function App() {
+  const [count, setCount] = useState(0)
+  return (
+    <> <MyHome/></>
+  )
+}
+export default App
+MyHome.jsx()
+import React,{useState} from "react";
+function MyHome(){
+    const handleClick=()=>{
+        alert(`You clicked button`);
+    };
+    return (
+        <div>
+        <h1>My Home Component</h1>
+        <p>This is a simple home component.</p>
+        <button onClick={handleClick}>Submit</button></div>
+    );
+}
+export default MyHome;
+
