@@ -1,0 +1,77 @@
+index.html create new file in vs code as index.html and paste the code
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>jQuery Event Demo</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    .box {
+      width: 150px;
+      height: 100px;
+      margin: 20px;
+      padding: 20px;
+      background-color: lightblue;
+      text-align: center;
+      line-height: 100px;
+      cursor: pointer;
+      border: 2px solid #333;
+    }
+    #message {
+      font-weight: bold;
+      text-align: center;
+      margin-top: 20px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="click-box" class="box">Click Me</div>
+  <div id="dblclick-box" class="box">Double Click Me</div>
+  <div id="hover-box" class="box">Hover Over Me</div>
+
+  <div id="message"></div>
+
+  <script>
+    $(document).ready(function () {
+      const $message = $("#message");
+
+      $("#click-box").click(function () {
+        $message.stop(true, true)
+          .text("You clicked the box!")
+          .fadeIn()
+          .delay(1000)
+          .fadeOut();
+      });
+
+      $("#dblclick-box").dblclick(function () {
+        $message.stop(true, true)
+          .text("You double-clicked the box!")
+          .fadeIn()
+          .delay(1000)
+          .fadeOut();
+      });
+
+      $("#hover-box").hover(
+        function () {
+          $message.stop(true, true)
+            .text("You hovered over the box!")
+            .fadeIn();
+          $(this).css("background-color", "lightgreen");
+        },
+        function () {
+          $message.stop(true, true)
+            .text("You stopped hovering over the box!")
+            .fadeIn();
+          $(this).css("background-color", "lightblue");
+        }
+      );
+    });
+  </script>
+
+</body>
+</html>
+
+

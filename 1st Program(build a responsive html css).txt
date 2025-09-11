@@ -1,0 +1,237 @@
+index.html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+</head>
+<body>
+  <form action="cart.html" method="get">
+    <h2>Login</h2>
+    <input type="email" placeholder="Email" required><br>
+    <input type="password" placeholder="Password" required><br>
+    <button type="submit">Login</button>
+    <p><a href="register.html">Register</a></p>
+  </form>
+</body>
+</html>
+
+register.html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register</title>
+</head>
+<body>
+  <form action="index.html" method="get">
+    <h2>Register</h2>
+    <input type="text" placeholder="Name" required><br>
+    <input type="email" placeholder="Email" required><br>
+    <input type="password" placeholder="Password" required><br>
+    <button type="submit">Register</button>
+    <p><a href="index.html">Back to Login</a></p>
+  </form>
+</body>
+</html>
+
+cart.html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cart with Images</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 1rem;
+    }
+
+    .flex-container {
+      display: flex;
+      justify-content: center;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      max-width: 1200px;
+      width: 100%;
+    }
+
+    .product {
+      background: #eee;
+      padding: 1rem;
+      text-align: center;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .product img {
+      max-width: 100%;
+      height: 150px;
+      object-fit: contain;
+      border-radius: 5px;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 7px 14px;
+      background: #5a67d8;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #434190;
+    }
+
+    .remove-btn {
+      background: #e53e3e;
+      margin-left: 10px;
+    }
+
+    .remove-btn:hover {
+      background: #9b2c2c;
+    }
+
+    .cart {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    li {
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Products</h2>
+
+  <div class="flex-container">
+    <div class="grid-container">
+      <div class="product" data-name="Bluetooth Speaker" data-price="70">
+        <img src="C:\Users\1MSCCS07\Desktop\bluetooth.jpg" alt="Bluetooth Speaker" />
+        <div>Bluetooth Speaker</div>
+        <div>$70</div>
+        <button onclick="addToCart('Bluetooth Speaker', 70)">Add</button>
+      </div>
+
+      <div class="product" data-name="Smart Watch" data-price="120">
+        <img src="C:\Users\1MSCCS07\Desktop\smartwatch.jpg" alt="Smart Watch" />
+        <div>Smart Watch</div>
+        <div>$120</div>
+        <button onclick="addToCart('Smart Watch', 120)">Add</button>
+      </div>
+
+      <div class="product" data-name="Floral Maxi Dress" data-price="85">
+        <img src="C:\Users\1MSCCS07\Desktop\floralmaxidress.jpg" alt="Floral Maxi Dress" />
+        <div>Floral Maxi Dress</div>
+        <div>$85</div>
+        <button onclick="addToCart('Floral Maxi Dress', 85)">Add</button>
+      </div>
+
+      <div class="product" data-name="Anarkali Kurta Set" data-price="90">
+        <img src="C:\Users\1MSCCS07\Desktop\anarkali.jpg" alt="Anarkali Kurta Set" />
+        <div>Anarkali Kurta Set</div>
+        <div>$90</div>
+        <button onclick="addToCart('Anarkali Kurta Set', 90)">Add</button>
+      </div>
+
+      <div class="product" data-name="Black Heel Sandals" data-price="65">
+        <img src="C:\Users\1MSCCS07\Desktop\heelsandals.jpg" alt="Black Heel Sandals" />
+        <div>Block Heel Sandals</div>
+        <div>$65</div>
+        <button onclick="addToCart('Block Heel Sandals', 65)">Add</button>
+      </div>
+    </div>
+  </div>
+  <div class="cart">
+    <h3>Cart</h3>
+    <ul id="cart-items">
+      <li>No items added.</li>
+    </ul>
+  </div>
+
+  <script>
+    const cartItems = document.getElementById('cart-items');
+    let itemsInCart = [];
+
+    function addToCart(name, price) {
+      if (itemsInCart.length === 0) {
+        cartItems.innerHTML = '';
+      }
+
+      const existingItem = itemsInCart.find(item => item.name === name);
+      if (existingItem) {
+        existingItem.qty++;
+      } else {
+        itemsInCart.push({ name, price, qty: 1 });
+      }
+
+      renderCart();
+    }
+
+    function removeFromCart(name) {
+      itemsInCart = itemsInCart.filter(item => item.name !== name);
+      if (itemsInCart.length === 0) {
+        cartItems.innerHTML = '<li>No items added.</li>';
+      } else {
+        renderCart();
+      }
+    }
+
+    function renderCart() {
+      cartItems.innerHTML = '';
+      itemsInCart.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = `${item.name} - $${item.price} x ${item.qty}`;
+
+        const removeBtn = document.createElement('button');
+        removeBtn.textContent = 'Remove';
+        removeBtn.className = 'remove-btn';
+        removeBtn.onclick = () => removeFromCart(item.name);
+
+        li.appendChild(removeBtn);
+        cartItems.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+OUTPUT	
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,87 @@
+TO DO LIST
+app.component.ts
+
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
+interface Todo {
+  text: string;
+  editing?: boolean;
+  editText?: string;
+}
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [FormsModule, CommonModule],
+  template: `
+    <h2>Todo List</h2>
+
+    <input [(ngModel)]="task" placeholder="Enter task" (keyup.enter)="add()" />
+    <button (click)="add()">Add</button>
+    <ul>
+      <li *ngFor="let t of tasks; let i = index">
+        <span *ngIf="!t.editing">{{ t.text }}</span>
+        <input *ngIf="t.editing" [(ngModel)]="t.editText" (keyup.enter)="save(i)" />
+        <div class="actions">
+          <button *ngIf="!t.editing" (click)="startEdit(i)">Edit</button>
+          <button *ngIf="!t.editing" (click)="remove(i)">Delete</button>
+          <button *ngIf="t.editing" (click)="save(i)">Save</button>
+          <button *ngIf="t.editing" (click)="cancelEdit(i)">Cancel</button>
+        </div>
+      </li>
+    </ul>
+  `,
+  styles: [
+    `h2 { text-align: center; font-family: Arial, sans-serif; }
+    input { padding: 6px; margin: 4px; }
+    button { margin: 2px; padding: 6px 10px; cursor: pointer; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 6px 0; }
+    .actions { display: inline; margin-left: 10px; }
+  `,
+  ],
+})
+export class AppComponent {
+  task = '';
+  tasks: Todo[] = [];
+
+  add() {
+    const txt = (this.task || '').trim();
+    if (!txt) return;
+    this.tasks.push({ text: txt });
+    this.task = '';
+  }
+
+  remove(i: number) {
+    this.tasks.splice(i, 1);
+  }
+
+  startEdit(i: number) {
+    const t = this.tasks[i];
+    t.editing = true;
+    t.editText = t.text;
+  }
+
+  save(i: number) {
+    const t = this.tasks[i];
+    const newText = (t.editText || '').trim();
+    if (newText) t.text = newText;
+    t.editing = false;
+    delete t.editText;
+  }
+
+  cancelEdit(i: number) {
+    this.tasks[i].editing = false;
+    delete this.tasks[i].editText;
+  }
+}
+
+main.ts
+
+import { bootstrapApplication } from '@angular/platform-browser';
+import { AppComponent } from './app/app.component';
+bootstrapApplication(AppComponent).catch((err) => console.error(err))
+
+
