@@ -1,0 +1,115 @@
+Add image and name it as img1.jpg put all these in one common folder
+index.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>jQuery Effects Project</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- jQuery CDN -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Custom JS -->
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Interactive Image Gallery</h1>
+
+    <div class="gallery">
+      <div class="image-wrapper">
+        <img src="img1.jpg" alt="Image 1" class="gallery-img">
+        <div class="img-text">Hello World</div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="fade-in">Fade In</button>
+      <button id="fade-out">Fade Out</button>
+      <button id="animate">Animate</button>
+    </div>
+  </div>
+</body>
+</html>
+
+style.css
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  text-align: center;
+}
+
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+}
+
+.gallery {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.image-wrapper {
+  position: relative;
+  display: inline-block;
+  margin: 10px;
+  border: 2px solid #333;
+}
+
+.gallery-img {
+  width: 300px;
+  height: auto;
+  display: none; /* Hidden initially */
+}
+
+.img-text {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 20px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 5px 10px;
+  border-radius: 5px;
+  white-space: nowrap;
+}
+
+.controls {
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  background-color: #007BFF;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+script.js
+
+$(document).ready(function () {
+  $('#fade-in').click(function () {
+    $('.gallery-img').fadeIn(1000); // Show image with fade
+  });
+
+  $('#fade-out').click(function () {
+    $('.gallery-img').fadeOut(1000); // Hide image with fade
+  });
+
+  $('#animate').click(function () {
+    $('.img-text').animate({
+      left: '200px'
+    }, 1000).animate({
+      left: '10px'
+    }, 1000); // Move right, then back
+  });
+});
