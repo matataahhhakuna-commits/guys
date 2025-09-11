@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f8fb;
+      padding: 40px;
+      color: #333;
+    }
+    input {
+      padding: 10px;
+      margin: 10px 0;
+      width: 250px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    p {
+      margin: 10px 0;
+      font-size: 16px;
+    }
+    #changeLog {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #e7f3fe;
+      border-left: 4px solid #2196F3;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <input id="userName" value="Annie">
+  <input id="userEmail" value="Annie@mail.com">
+  <button onclick="updateUser()">Save</button>
+  <p id="displayName">Annie</p>
+  <p id="displayEmail">Annie@mail.com</p>
+  <p id="changeLog"></p>
+
+  <script>
+    let oldName = "Annie", oldEmail = "Annie@mail.com";
+    function updateUser() {
+      let newName = userName.value;
+      let newEmail = userEmail.value;
+      fetch("data:application/json," + JSON.stringify({ name: newName, email: newEmail }))
+        .then(response => response.json())
+        .then(updated => {
+          displayName.textContent = updated.name;
+          displayEmail.textContent = updated.email;
+          changeLog.textContent = `Name: ${oldName} ? ${updated.name} | Email: ${oldEmail} ? ${updated.email}`;
+          oldName = updated.name;
+          oldEmail = updated.email;
+        });
+    }
+  </script>
+</body>
+</html>
+
