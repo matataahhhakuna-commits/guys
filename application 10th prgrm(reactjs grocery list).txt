@@ -1,0 +1,266 @@
+10) Grocery list
+Command prompt
+Open >cmd
+>nvm version(1.2.2)
+>nvm list( 16.20.2)
+>nvm install 22.17.0
+>nvm List
+>node –v
+>nvm use 22
+ Close cmd
+
+Open the Fsd workshop Folder>type cmd
+>node –v
+>npm create vite@latest grocery-app
+>y
+>select react
+>select JavaScript
+(optional check the FSD workshop folder, there create grocery-app can folder created or not)
+>cd grocery-app
+>npm install
+>npm install react-router-dom
+>npm install bootstrap
+>npm run dev
+
+Coding:
+App.jsx
+
+import { useState } from 'react'
+import './App.css'
+
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/js/bootstrap.min.js'
+import RouterFile from './components/RouterFile'
+import Home from './components/Home'
+
+
+function App() {
+
+  return (
+    <>
+     <RouterFile/>
+    </>
+  )
+}
+
+export default App
+
+Main.jsx
+
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+// import './index.css'
+import App from './App.jsx'
+import { BrowserRouter } from 'react-router-dom'
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </StrictMode>,
+)
+
+AdminLogin.jsx()
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+const AdminLogin = () => {
+  const [username, setusername] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate=useNavigate()
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    console.log('Login submitted');
+    console.log('username:', username);
+    console.log('Password:', password);
+    if (username === 'admin' && password === 'admin') {
+      alert('Login successful');
+      navigate("/cart")
+    } else {
+      alert('Invalid username or password');
+    }
+    // You can add actual login logic here
+  };
+
+  return (
+    <div className="container mt-5" style={{ maxWidth: '400px' }}>
+      <h2 className="text-center mb-4">Login</h2>
+      <form onSubmit={handleLogin}>
+        <div className="mb-3">
+          <label htmlFor="email" className="form-label">
+           username
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="email"
+            placeholder="Enter username"
+            value={username}
+            onChange={(e) => setusername(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="password" className="form-label">
+            Password
+          </label>
+          <input
+            type="password"
+            className="form-control"
+            id="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+
+        <button type="submit" className="btn btn-primary w-100">
+          Login
+        </button>
+      </form>
+    </div>
+  );
+};
+
+export default AdminLogin;
+
+Cart.jsx
+
+import { use } from "react";
+import { useState,useEffect } from "react";
+
+const CartView = () => {
+    const [cart,setCart]=useState([])
+    useEffect(()=>{
+        const cartData=JSON.parse(localStorage.getItem("cart"))||[]
+        setCart(cartData)
+       
+    },[])
+    const removeFromCart=(itemId)=>{
+        const updateCart=cart.filter((item)=>item.id!== itemId)
+        setCart(updateCart)
+        localStorage.setItem("cart",JSON.stringify(updateCart))
+    }
+  return (
+    <div>
+      <h2>Cart Items</h2>
+      {cart.length === 0 ? (
+        <p>No items in cart.</p>
+      ) : (
+        <ul>
+        <div className="row">
+          {cart.map((item) => (
+            <div className="col-md-3 mb-2">
+              <div className="card">
+                <div className="card-body text-center">
+                    <img src={item.image} className="card-img-top" alt="#" width="200px" height="200px" />
+                  <h5 className="card-title">{item.name}</h5>
+                  <p className="card-text">Price: ${item.price}</p>
+                  <button className="btn btn-danger" type='button' onClick={(e) => {
+                    e.preventDefault();
+                    removeFromCart(item.id)
+                  }}>
+                    remove
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </ul>
+      )}
+    </div>
+  );
+};
+
+
+export default CartView
+
+Global.js
+export const cart=[]
+
+Home.jsx
+
+import apple from '../assets/images/apple.jpg'
+import banana from '../assets/images/banana.jpg'
+import bread from '../assets/images/bread.jpg'
+import milk from '../assets/images/milk.jpg'
+import eggs from '../assets/images/eggs.jpg'
+import pasta from '../assets/images/pasta.jpg'
+import { useNavigate } from 'react-router'
+const Home = () => {
+  const groceryItems = [
+    { id: 1, name: 'Apples', price: 2.5 , image:apple},
+    { id: 2, name: 'Bananas', price: 1.2 , image:banana},
+    { id: 3, name: 'Bread', price: 3.0 , image:bread},
+    { id: 4, name: 'Milk', price: 2.0 , image:milk},
+    { id: 5, name: 'Eggs', price: 2.8 , image:eggs},
+    { id:6, name: 'Pasta', price: 4.5 , image:pasta},
+  ];
+
+  const addToCart = (item) => {
+    const existingCart=JSON.parse(localStorage.getItem("cart"))||[]
+    const updateCart=[...existingCart,item]
+    localStorage.setItem("cart",JSON.stringify(updateCart))
+    console.log("item added",updateCart)
+    alert("Cart added")
+   
+  };
+
+  const navigate = useNavigate()
+  // const adminlogin=()=>{
+  //   navigate("/admin")
+  // }
+  return (
+    <div className="container">
+        <center><h1>Grocery Shop</h1></center><div className='text-end'><button className='btn btn-success' onClick={()=>{navigate("/admin")}} type='button'>admin</button></div><br />
+      <ul>
+        <div className="row">
+          {groceryItems.map((item) => (
+            <div className="col-md-4 mb-2">
+              <div className="card">
+                <div className="card-body text-center">
+                    <img src={item.image} className="card-img-top" alt="#" width="200px" height="200px" />
+                  <h5 className="card-title">{item.name}</h5>
+                  <p className="card-text">Price: ${item.price}</p>
+                  <button className="btn btn-primary" type='button' onClick={(e) => {
+                    e.preventDefault();
+                    addToCart(item)
+                  }}>
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </ul>
+    </div>
+  );
+};
+
+export default Home;
+
+RouterFile.jsx
+
+import React from 'react'
+import { Routes, Route } from 'react-router-dom';
+import AdminLogin from './AdminLogin';
+import Home from './Home';
+// import Cart from './Cart';
+import CartView from './Cart';
+const RouterFile = () => {
+    return <div>
+        <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/admin" element={<AdminLogin />} />
+            <Route path="/cart" element={<CartView />} />
+        </Routes>
+    </div>
+}  
+export default RouterFile
+
