@@ -1,0 +1,58 @@
+Command prompt
+node -v
+npm -v
+npx create-react-app voting-app
+create-react-app@5.1.0
+ok to procees? Y
+cd voting-app
+npm start
+voting-app@0.1.0
+react-scripts start
+
+relace these code in src/App.js
+Import React, { useState } from ‘react’;
+
+Const subjects = [‘Tamil’, ‘Math’, ‘Science’, ‘History’, ‘English’];
+
+Function App() {
+  Const [hasVoted, setHasVoted] = useState(false);
+  Const [message, setMessage] = useState(‘’);
+  Const [messageType, setMessageType] = useState(‘’); // ‘success’ or ‘error’
+  Const [selectedSubject, setSelectedSubject] = useState(‘’);
+
+  Const handleVote = (subject) => {
+    If (hasVoted) {
+      setMessage(`? You have already voted for “${selectedSubject}”.`);
+      setMessageType(‘error’);
+    } else {
+      setSelectedSubject(subject);
+      setHasVoted(true);
+      setMessage(`? Successfully voted for “${subject}”.`);
+      setMessageType(‘success’);
+    }
+  };
+
+  Return (
+    <div className=”container”>
+      <h1>??? Vote for a Subject</h1>
+      <ul className=”subject-list”>
+        {subjects.map((subject, index) => (
+          <li key={index} className=”subject-item”>
+            <button onClick={() => handleVote(subject)} className=”vote-button”>
+              Vote for {subject}
+            </button>
+          </li>
+        ))}
+      </ul>
+
+      {message && (
+        <div className={messageType === ‘success’ ? ‘message-success’ : ‘message-error’}>
+          {message}
+        </div>
+      )}
+    </div>
+  );
+}
+
+Export default App;
+
