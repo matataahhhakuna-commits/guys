@@ -1,0 +1,157 @@
+SHOPPING LIST
+AIM:
+To develop a JS angular display a list of shopping items.Remove the item and item count .
+ALGORITHM:
+STEP 1:
+Create a new project name in command prompt
+STEP 2:
+Generate the components in ng serve
+STEP 3:
+Create the component in our project file
+STEP 4:
+Running the program in ng serve.
+
+CODING:
+shopping.component.html
+
+
+<p>shopping works! - {{ msg }}</p>
+
+<form (ngSubmit)="addItem()">
+  <input [(ngModel)]="newItem" name="name" placeholder="Enter item" required>
+  <input [(ngModel)]="userNote" name="note" placeholder="Enter note (optional)">
+  <button type="submit">Add Item</button>
+</form>
+<hr>
+
+
+Total Items: {{ items.length }}
+<table style="width: 300px; border: 1px solid rgb(218, 49, 49);">
+  
+    <tr>
+    <th>Name</th>
+    <th>Note</th>
+    </tr>
+  
+<tbody>
+  
+  <tr *ngFor="let item of items; let i = index">
+    
+    <td> {{ i+1 }}) {{ item.name }}</td>
+    <td>{{ item.note }}</td>
+    <td><button (click)="removeItem(i)">Remove </button> </td>
+  </tr>
+  
+  </tbody> 
+
+</table>
+
+
+
+shopping.component.spec.ts
+
+
+
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { ShoppingComponent } from './shopping.component';
+
+describe('ShoppingComponent', () => {
+  let component: ShoppingComponent;
+  let fixture: ComponentFixture<ShoppingComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ ShoppingComponent ]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(ShoppingComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+
+
+
+shopping.component.ts
+
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-shopping',
+  templateUrl: './shopping.component.html',
+  styleUrls: ['./shopping.component.scss']
+})
+export class ShoppingComponent implements OnInit {
+
+  msg = 'Shopping Cart Component';
+  items = [
+    { name: 'Milk', note: 'Cow milk' },
+    { name: 'Bread', note: 'Milk bread' },
+    { name: 'Eggs', note: 'Chiken eggs' },
+    {name: 'Butter', note: ''},
+    { name: 'Cheese', note: 'Basic' }
+  ];
+
+  newItem = '';
+  userNote = '';
+  addItem() {
+    if (this.newItem.trim()) {
+      this.items.push({ name: this.newItem, note: this.userNote });
+      console.log('Note entered:', this.userNote); // Access the note
+      this.newItem = '';
+      this.userNote = '';
+    }
+  }
+
+  removeItem(index: number) {
+    this.items.splice(index, 1);
+  }
+  
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}
+
+app.module.ts
+
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';  // Required for [(ngModel)]
+
+import { AppComponent } from './app.component';
+import { ShoppingComponent } from './shopping/shopping.component';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    ShoppingComponent  // Declare your shopping component
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule       // Import FormsModule for two-way binding
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+
+app.component.html
+
+<div style="text-align:center; margin-bottom:20px;">
+  <h1>My Angular Shopping Cart</h1>
+</div>
+
+<!-- Include the Shopping Component -->
+<app-shopping></app-shopping>
+
+OUTPUT:
+
